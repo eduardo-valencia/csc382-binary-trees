@@ -1,8 +1,8 @@
 class DataNode<Data> {
-  _data: Data;
-  _left: DataNode<Data> | null;
-  _right: DataNode<Data> | null;
-  _frequency: number;
+  private _data: Data;
+  private _left: DataNode<Data> | null;
+  private _right: DataNode<Data> | null;
+  private _frequency: number;
 
   constructor(
     _data: DataNode<Data>["_data"],
@@ -47,3 +47,5 @@ class DataNode<Data> {
     this._frequency = frequency;
   }
 }
+
+export default DataNode;
