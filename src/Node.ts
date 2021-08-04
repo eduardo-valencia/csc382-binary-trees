@@ -32,7 +32,7 @@ class DataNode<Data> {
   }
 
   get data(): Data {
-    return this.data;
+    return this._data;
   }
 
   set data(data: Data) {
