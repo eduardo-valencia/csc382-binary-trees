@@ -84,3 +84,17 @@ describe("Insertion", () => {
     expect(tree.head!.left!.left).not.toBeNull();
   });
 });
+
+describe("Deletion", () => {
+  let tree: BinarySearchTree<NodeType> | null;
+
+  beforeEach(() => {
+    tree = new BinarySearchTree<NodeType>();
+  });
+
+  it("Should delete the head if there is only one node", () => {
+    tree!.insert(1);
+    tree!.deleteNode(tree!.head!);
+    expect(tree!.head).toBeNull();
+  });
+});

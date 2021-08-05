@@ -134,12 +134,12 @@ class BinarySearchTree<Data> {
 
   removeNodeFromParent = (nodeToDelete: DataNode<Data>): void => {
     const parentNode = this.findParentNode(nodeToDelete.data);
-    if (!parentNode) throw new Error("Parent node not found");
+    if (!parentNode) return;
     const side: Side = parentNode.left === nodeToDelete ? "left" : "right";
     parentNode[side] = null;
   };
 
-  replaceNodeToDelete = (nodeToDelete: DataNode<Data>): void => {
+  deleteNode = (nodeToDelete: DataNode<Data>): void => {
     if (nodeToDelete.left && nodeToDelete.right) {
       return this.replaceNodeWithMinimum(nodeToDelete);
     } else if (nodeToDelete.left || nodeToDelete.right) {
