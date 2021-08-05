@@ -97,4 +97,45 @@ describe("Deletion", () => {
     tree!.deleteNode(tree!.head!);
     expect(tree!.head).toBeNull();
   });
+
+  it("Should remove the parent's reference when the node to delete is a child.", () => {
+    tree!.insert(100);
+    tree!.insert(99);
+    const leftChild = tree!.head!.left!;
+    tree!.deleteNode(leftChild);
+    expect(tree!.head!.left!).toBeNull();
+  });
+
+  describe("When the node has either a left or right child", () => {
+    beforeEach(() => {
+      tree!.insert(100);
+    });
+
+    function testHeadReplacedWithSide(side: Side) {
+      const headData = tree!.head!.data;
+      const dataToInsert = side === "left" ? headData - 1 : headData + 1;
+      tree!.insert(dataToInsert);
+      tree!.insert(dataToInsert - 1);
+
+      const childToDelete = tree!.head![side];
+      const childToDeleteLeft = childToDelete!.left;
+      const childToDeleteRight = childToDelete!.right;
+      tree!.deleteNode(tree!.head!);
+
+      const head = tree!.head!;
+      expect(head.data).toEqual(dataToInsert);
+      expect(head.left).toEqual(childToDeleteLeft);
+      expect(head.right).toEqual(childToDeleteRight);
+    }
+
+    it("Should replace the node with its left child if it only has a left child", () => {
+      testHeadReplacedWithSide("left");
+    });
+
+    it("Should replace the node with its right child if it only has a right child", () => {
+      testHeadReplacedWithSide("right");
+    });
+
+    // it("Should replace the node with the minimum value if it has multiple children", () => {});
+  });
 });

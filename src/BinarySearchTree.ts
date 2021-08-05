@@ -84,6 +84,15 @@ class BinarySearchTree<Data> {
     nodeToReplace.right = null;
   };
 
+  replaceWithNode = (
+    nodeToReplace: DataNode<Data>,
+    node: DataNode<Data>
+  ): void => {
+    nodeToReplace.data = node.data;
+    nodeToReplace.left = node.left;
+    nodeToReplace.right = node.right;
+  };
+
   getSideTraverser =
     (side: Side) =>
     (node: DataNode<Data> | null = this.head): Data | null => {
@@ -108,7 +117,7 @@ class BinarySearchTree<Data> {
 
   replaceNodeWithChild = (nodeToDelete: DataNode<Data>): void => {
     const child = nodeToDelete.left || nodeToDelete.right;
-    this.replace(nodeToDelete, child!.data);
+    this.replaceWithNode(nodeToDelete, child!);
   };
 
   findParentNode = (
