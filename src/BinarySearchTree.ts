@@ -1,6 +1,6 @@
 import DataNode from "./Node";
 
-type Side = "left" | "right";
+export type Side = "left" | "right";
 
 class BinarySearchTree<Data> {
   private _head: DataNode<Data> | null;
@@ -62,8 +62,11 @@ class BinarySearchTree<Data> {
   };
 
   insert = (data: Data, startNode: DataNode<Data> | null = this.head): void => {
-    if (!startNode) return;
-    else if (startNode.data === data) {
+    if (!startNode && !this.head) {
+      this.head = new DataNode<Data>(data);
+    } else if (!startNode) {
+      throw new Error("Start node does not exist");
+    } else if (startNode.data === data) {
       startNode.frequency++;
     } else if (data < startNode.data && startNode.left) {
       this.insert(data, startNode.left);
