@@ -134,9 +134,12 @@ class BinarySearchTree<Data> {
 
   removeNodeFromParent = (nodeToDelete: DataNode<Data>): void => {
     const parentNode = this.findParentNode(nodeToDelete.data);
-    if (!parentNode) return;
-    const side: Side = parentNode.left === nodeToDelete ? "left" : "right";
-    parentNode[side] = null;
+    if (parentNode) {
+      const side: Side = parentNode.left === nodeToDelete ? "left" : "right";
+      parentNode[side] = null;
+    } else {
+      this.head = null;
+    }
   };
 
   deleteNode = (nodeToDelete: DataNode<Data>): void => {
