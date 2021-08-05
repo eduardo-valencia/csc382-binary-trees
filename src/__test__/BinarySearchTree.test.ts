@@ -3,6 +3,8 @@ import DataNode from "../Node";
 
 type NodeType = number;
 
+type DataNodeType = DataNode<NodeType>;
+
 describe("Traversal", () => {
   const head = new DataNode<number>(100);
   const tree = new BinarySearchTree<number>(head);
@@ -111,21 +113,42 @@ describe("Deletion", () => {
       tree!.insert(100);
     });
 
-    function testHeadReplacedWithSide(side: Side) {
-      const headData = tree!.head!.data;
-      const dataToInsert = side === "left" ? headData - 1 : headData + 1;
+    const insertOnSide = (node: DataNode<NodeType>, side: Side): void => {
+      const nodeData: NodeType = node.data;
+      const dataToInsert = side === "left" ? nodeData - 1 : nodeData + 1;
       tree!.insert(dataToInsert);
-      tree!.insert(dataToInsert - 1);
+    };
+
+    const testNodeDataIsEqual = (
+      node: DataNodeType,
+      data: NodeType,
+      left: DataNodeType,
+      right: DataNodeType
+    ): void => {
+      expect(node.data).toEqual(data);
+      expect(node.left).toEqual(left);
+      expect(node.right).toEqual(right);
+    };
+
+    function testHeadReplacedWithSide(side: Side) {
+      insertOnSide(tree!.head!, side);
+      const insertedNode = tree!.head![side];
+      insertOnSide(insertedNode!, "left");
+
+      const insertedNodeData = insertedNode!.data;
 
       const childToDelete = tree!.head![side];
-      const childToDeleteLeft = childToDelete!.left;
-      const childToDeleteRight = childToDelete!.right;
+      const childToDeleteLeft = childToDelete!.left!;
+      const childToDeleteRight = childToDelete!.right!;
       tree!.deleteNode(tree!.head!);
 
       const head = tree!.head!;
-      expect(head.data).toEqual(dataToInsert);
-      expect(head.left).toEqual(childToDeleteLeft);
-      expect(head.right).toEqual(childToDeleteRight);
+      testNodeDataIsEqual(
+        head,
+        insertedNodeData,
+        childToDeleteLeft,
+        childToDeleteRight
+      );
     }
 
     it("Should replace the node with its left child if it only has a left child", () => {
@@ -136,6 +159,14 @@ describe("Deletion", () => {
       testHeadReplacedWithSide("right");
     });
 
-    // it("Should replace the node with the minimum value if it has multiple children", () => {});
+    it("Should replace the node with the minimum value if it has multiple children", () => {
+      const head = tree!.head!;
+      insertOnSide(head, "left");
+      insertOnSide(head, "right");
+      insertOnSide(head.left!, "left");
+      insertOnSide(head.right!, "right");
+      tree!.deleteNode(head);
+      // expect
+    });
   });
 });
