@@ -46,6 +46,12 @@ class DataNode<Data> {
   set frequency(frequency: DataNode<Data>["_frequency"]) {
     this._frequency = frequency;
   }
+
+  getCopy = () => {
+    const copy = new DataNode<Data>(this.data, this.left, this.right);
+    copy.frequency = this.frequency;
+    return copy;
+  };
 }
 
 export default DataNode;

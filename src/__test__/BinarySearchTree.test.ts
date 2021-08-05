@@ -120,35 +120,24 @@ describe("Deletion", () => {
     };
 
     const testNodeDataIsEqual = (
-      node: DataNodeType,
-      data: NodeType,
-      left: DataNodeType,
-      right: DataNodeType
+      node1: DataNodeType,
+      node2: DataNodeType
     ): void => {
-      expect(node.data).toEqual(data);
-      expect(node.left).toEqual(left);
-      expect(node.right).toEqual(right);
+      expect(node1.data).toEqual(node2.data);
+      expect(node1.left).toEqual(node2.left);
+      expect(node1.right).toEqual(node2.right);
     };
 
     function testHeadReplacedWithSide(side: Side) {
       insertOnSide(tree!.head!, side);
       const insertedNode = tree!.head![side];
       insertOnSide(insertedNode!, "left");
+      const headChildCopy: DataNodeType = insertedNode!.getCopy();
 
-      const insertedNodeData = insertedNode!.data;
-
-      const childToDelete = tree!.head![side];
-      const childToDeleteLeft = childToDelete!.left!;
-      const childToDeleteRight = childToDelete!.right!;
       tree!.deleteNode(tree!.head!);
 
       const head = tree!.head!;
-      testNodeDataIsEqual(
-        head,
-        insertedNodeData,
-        childToDeleteLeft,
-        childToDeleteRight
-      );
+      testNodeDataIsEqual(head, headChildCopy);
     }
 
     it("Should replace the node with its left child if it only has a left child", () => {
