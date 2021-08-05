@@ -150,12 +150,12 @@ describe("Deletion", () => {
 
     it("Should replace the node with the minimum value if it has multiple children", () => {
       const head = tree!.head!;
-      insertOnSide(head, "left");
       insertOnSide(head, "right");
-      insertOnSide(head.left!, "left");
+      insertOnSide(head.right!, "left");
       insertOnSide(head.right!, "right");
+      const headRightLeftCopy = head.right!.left!.getCopy();
       tree!.deleteNode(head);
-      // expect
+      testNodeDataIsEqual(head, headRightLeftCopy);
     });
   });
 });
