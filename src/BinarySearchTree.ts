@@ -77,6 +77,76 @@ class BinarySearchTree<Data> {
       this.tryInsertingNodeOnSide(startNode, "right", data);
     }
   };
+
+  replace = (nodeToReplace: DataNode<Data>, data: Data): void => {
+    nodeToReplace.data = data;
+    nodeToReplace.left = null;
+    nodeToReplace.right = null;
+  };
+
+  getSideTraverser =
+    (side: Side) =>
+    (node: DataNode<Data> | null = this.head): Data | null => {
+      if (node === null) {
+        return null;
+      } else if (node[side]) {
+        return this.getSideTraverser(side)(node[side]!);
+      }
+      return node.data;
+    };
+
+  minimum = this.getSideTraverser("left");
+
+  maximum = this.getSideTraverser("right");
+
+  replaceNodeWithMinimum = (nodeToDelete: DataNode<Data>): void => {
+    const minimum = this.minimum();
+    if (minimum) {
+      this.replace(nodeToDelete, minimum);
+    }
+  };
+
+  replaceNodeWithChild = (nodeToDelete: DataNode<Data>): void => {
+    const child = nodeToDelete.left || nodeToDelete.right;
+    this.replace(nodeToDelete, child!.data);
+  };
+
+  findParentNode = (
+    data: Data,
+    node: DataNode<Data> | null = this.head
+  ): DataNode<Data> | null => {
+    if (node === null) {
+      return null;
+    } else if (!node.left && !node.right) {
+      return null;
+    } else if (
+      (node.left && data === node.left.data) ||
+      (node.right && data === node.right.data)
+    ) {
+      return node;
+    } else if (node.left && data < node.data) {
+      return this.findParentNode(data, node.left);
+    } else if (node.right && data > node.data) {
+      return this.findParentNode(data, node.right);
+    }
+    return null;
+  };
+
+  removeNodeFromParent = (nodeToDelete: DataNode<Data>): void => {
+    const parentNode = this.findParentNode(nodeToDelete.data);
+    if (!parentNode) throw new Error("Parent node not found");
+    const side: Side = parentNode.left === nodeToDelete ? "left" : "right";
+    parentNode[side] = null;
+  };
+
+  replaceNodeToDelete = (nodeToDelete: DataNode<Data>): void => {
+    if (nodeToDelete.left && nodeToDelete.right) {
+      return this.replaceNodeWithMinimum(nodeToDelete);
+    } else if (nodeToDelete.left || nodeToDelete.right) {
+      return this.replaceNodeWithChild(nodeToDelete);
+    }
+    return this.removeNodeFromParent(nodeToDelete);
+  };
 }
 
 export default BinarySearchTree;
