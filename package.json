@@ -6,7 +6,7 @@
   },
   "scripts": {
     "test": "jest --watch",
-    "generateDocumentation": "touch README.md && jsdoc2md out/*.js > README.md",
+    "generateDocumentation": "npm run build && touch README.md && jsdoc2md out/*.js > README.md",
     "build": "tsc --build tsconfig.json"
   },
   "jest": {

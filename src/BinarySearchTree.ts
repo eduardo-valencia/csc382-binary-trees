@@ -7,20 +7,44 @@ export type Side = 'left' | 'right'
  * @param {Data} - Generic type describing the type of DataNode
  */
 class BinarySearchTree<Data> {
+  /**
+   * The head node of the tree, which is used to access other nodes.
+   */
   private _head: DataNode<Data> | null
 
+  /**
+   * @param {head} - The head node of the tree
+   * @example
+   * new BinarySearchTree<number>()
+   */
   constructor(head: BinarySearchTree<Data>['_head'] = null) {
     this._head = head
   }
 
+  /**
+   * @example
+   * tree.head
+   */
   get head(): BinarySearchTree<Data>['_head'] {
     return this._head
   }
 
+  /**
+   * @example
+   * tree.head = null
+   */
   set head(head: BinarySearchTree<Data>['_head']) {
     this._head = head
   }
 
+  /**
+   * A generator method to traverse the tree. Yields the data, then left, then right.
+   * @param {startNode}: The node to start traversing from
+   * @returns {IterableIterator<Data>}: An iterator with the node data
+   * @example
+   * const generator = tree.traverse()
+   * const { value } = generator.next()
+   */
   *traverse(
     startNode: DataNode<Data> | null = this.head
   ): IterableIterator<Data> {
@@ -38,6 +62,19 @@ class BinarySearchTree<Data> {
     }
   }
 
+  /**
+   * Returns whether it should insert on a side depending on the node's value
+   * @param {node}: The node to insert on
+   * @param {data}: The data to insert
+   * @param {side}: "left" or "right"
+   * @returns {boolean}
+   * @example
+   * this.getIfShouldInsertOnSide(
+      node,
+      data,
+      side
+    )
+   */
   getIfShouldInsertOnSide = (
     node: DataNode<Data>,
     data: Data,
@@ -49,6 +86,14 @@ class BinarySearchTree<Data> {
       : isGreaterThanCurrentData
   }
 
+  /**
+   * Gets whether a node should be inserted on a side, then tries to insert it.
+   * @param {node}: The node to insert on
+   * @param {data}: The data to insert
+   * @param {side}: "left" or "right"
+   * @example
+   * this.tryInsertingNodeOnSide(startNode, 'left', data)
+   */
   tryInsertingNodeOnSide = (
     node: DataNode<Data>,
     side: Side,
@@ -60,16 +105,27 @@ class BinarySearchTree<Data> {
       side
     )
     if (!shouldInsertOnSide) return
+    // Because you do not want to accidentally replace a child.
     if (!node[side]) {
       node[side] = new DataNode<Data>(data)
     }
   }
 
+  /**
+   * Creates a new node with data and inserts it into the tree.
+   * @param {data}: The data to insert
+   * @param {startNode}: The node to start the insertion process on
+   * @example
+   * tree.insert(100)
+   */
   insert = (data: Data, startNode: DataNode<Data> | null = this.head): void => {
+    // Because the head might be empty
     if (!startNode && !this.head) {
       this.head = new DataNode<Data>(data)
+      // because the user might accidentally pass null as the startNode
     } else if (!startNode) {
       throw new Error('Start node does not exist')
+      // Handles duplicates
     } else if (startNode.data === data) {
       startNode.frequency++
     } else if (data < startNode.data && startNode.left) {
@@ -77,6 +133,7 @@ class BinarySearchTree<Data> {
     } else if (data > startNode.data && startNode.right) {
       this.insert(data, startNode.right)
     } else {
+      // Handles insertions when there is not an existing child
       this.tryInsertingNodeOnSide(startNode, 'left', data)
       this.tryInsertingNodeOnSide(startNode, 'right', data)
     }
