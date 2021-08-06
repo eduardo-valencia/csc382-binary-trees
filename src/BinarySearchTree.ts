@@ -2,6 +2,10 @@ import DataNode from './Node'
 
 export type Side = 'left' | 'right'
 
+/**
+ * The Binary Search Tree Class
+ * @param {Data} - Generic type describing the type of DataNode
+ */
 class BinarySearchTree<Data> {
   private _head: DataNode<Data> | null
 
