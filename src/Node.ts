@@ -10,9 +10,9 @@ class DataNode<Data> {
 
   /**
    * The constructor
-   * @param {_data}: The data to store
-   * @param {_left}: The left node
-   * @param {_right}: The right node
+   * @param {_data} - The data to store
+   * @param {_left} - The left node
+   * @param {_right} - The right node
    * @example
    * new DataNode<number>(100)
    */

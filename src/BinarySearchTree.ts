@@ -39,7 +39,7 @@ class BinarySearchTree<Data> {
 
   /**
    * A generator method to traverse the tree. Yields the data, then left, then right.
-   * @param {startNode}: The node to start traversing from
+   * @param {startNode} - The node to start traversing from
    * @returns {IterableIterator<Data>}: An iterator with the node data
    * @example
    * const generator = tree.traverse()
@@ -64,9 +64,9 @@ class BinarySearchTree<Data> {
 
   /**
    * Returns whether it should insert on a side depending on the node's value
-   * @param {node}: The node to insert on
-   * @param {data}: The data to insert
-   * @param {side}: "left" or "right"
+   * @param {node} - The node to insert on
+   * @param {data} - The data to insert
+   * @param {side} - "left" or "right"
    * @returns {boolean}
    * @example
    * this.getIfShouldInsertOnSide(
@@ -88,9 +88,9 @@ class BinarySearchTree<Data> {
 
   /**
    * Gets whether a node should be inserted on a side, then tries to insert it.
-   * @param {node}: The node to insert on
-   * @param {data}: The data to insert
-   * @param {side}: "left" or "right"
+   * @param {node} - The node to insert on
+   * @param {data} - The data to insert
+   * @param {side} - "left" or "right"
    * @example
    * this.tryInsertingNodeOnSide(startNode, 'left', data)
    */
@@ -113,8 +113,8 @@ class BinarySearchTree<Data> {
 
   /**
    * Creates a new node with data and inserts it into the tree.
-   * @param {data}: The data to insert
-   * @param {startNode}: The node to start the insertion process on
+   * @param {data} - The data to insert
+   * @param {startNode} - The node to start the insertion process on
    * @example
    * tree.insert(100)
    */
@@ -141,8 +141,8 @@ class BinarySearchTree<Data> {
 
   /**
    * Replaces a node
-   * @param {nodeToReplace}: The node to replace
-   * @param {node}: The node to replace with
+   * @param {nodeToReplace} - The node to replace
+   * @param {node} - The node to replace with
    * @example
    * tree.insert(100)
    * tree.insert(99)
@@ -159,8 +159,8 @@ class BinarySearchTree<Data> {
 
   /**
    * Gets a function that traverses the tree in a given direction.
-   * @param {side}: Either "left" or "right"
-   * @returns {function}: a traverser function
+   * @param {side} - Either "left" or "right"
+   * @returns {function} - a traverser function
    * @example
    * tree.getSideTraverser('left')
    */
@@ -177,7 +177,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Gets the minimum node of a tree.
-   * @param {node}: The node to start traversing from
+   * @param {node} - The node to start traversing from
    * @returns {DataNode<Data> | null}: Returns the minimum node or null
    * @example
    * tree.minimum()
@@ -186,7 +186,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Gets the maximum node of a tree.
-   * @param {node}: The node to start traversing from
+   * @param {node} - The node to start traversing from
    * @returns {DataNode<Data> | null}: Returns the maximum node or null
    * @example
    * tree.maximum()
@@ -209,7 +209,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Replaces the node that will be deleted with the minimum of the right side.
-   * @param {nodeToDelete}: The node to delete
+   * @param {nodeToDelete} - The node to delete
    * @example
    * tree.replaceNodeWithMinimumOfRightTree(tree.head)
    */
@@ -222,7 +222,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Replaces a node with either its left or right child, depending on which one exists.
-   * @param {nodeToDelete}: The node to delete
+   * @param {nodeToDelete} - The node to delete
    * @example
    * tree.replaceNodeWithChild(tree.head)
    */
@@ -233,8 +233,8 @@ class BinarySearchTree<Data> {
 
   /**
    * Finds the parent node of a node with specific data
-   * @param {data}: The data to find
-   * @param {node}: The node to begin traversing from
+   * @param {data} - The data to find
+   * @param {node} - The node to begin traversing from
    * @example
    * tree.insert(90)
    * tree.insert(100)
@@ -264,7 +264,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Finds the parent node and removes its reference to a specific child
-   * @param {nodeToDelete}: The node to delete
+   * @param {nodeToDelete} - The node to delete
    * @example
    * tree.insert(100)
    * tree.insert(90)
@@ -282,7 +282,7 @@ class BinarySearchTree<Data> {
 
   /**
    * Deletes a node, replacing it if necessary.
-   * @param {nodeToDelete}: The node to delete
+   * @param {nodeToDelete} - The node to delete
    * @example
    * tree.insert(100)
    * tree.deleteNode(tree.head)
