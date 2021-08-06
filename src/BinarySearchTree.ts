@@ -1,20 +1,20 @@
-import DataNode from "./Node";
+import DataNode from './Node'
 
-export type Side = "left" | "right";
+export type Side = 'left' | 'right'
 
 class BinarySearchTree<Data> {
-  private _head: DataNode<Data> | null;
+  private _head: DataNode<Data> | null
 
-  constructor(head: BinarySearchTree<Data>["_head"] = null) {
-    this._head = head;
+  constructor(head: BinarySearchTree<Data>['_head'] = null) {
+    this._head = head
   }
 
-  get head(): BinarySearchTree<Data>["_head"] {
-    return this._head;
+  get head(): BinarySearchTree<Data>['_head'] {
+    return this._head
   }
 
-  set head(head: BinarySearchTree<Data>["_head"]) {
-    this._head = head;
+  set head(head: BinarySearchTree<Data>['_head']) {
+    this._head = head
   }
 
   *traverse(
@@ -22,15 +22,15 @@ class BinarySearchTree<Data> {
   ): IterableIterator<Data> {
     if (!startNode) {
       throw new Error(
-        "Tried traversing the node, but the start node does not exist."
-      );
+        'Tried traversing the node, but the start node does not exist.'
+      )
     }
-    yield startNode.data;
+    yield startNode.data
     if (startNode.left) {
-      yield this.traverse(startNode.left).next().value;
+      yield this.traverse(startNode.left).next().value
     }
     if (startNode.right) {
-      yield this.traverse(startNode.right).next().value;
+      yield this.traverse(startNode.right).next().value
     }
   }
 
@@ -39,11 +39,11 @@ class BinarySearchTree<Data> {
     data: Data,
     side: Side
   ): boolean => {
-    const isGreaterThanCurrentData = data > node.data;
-    return side === "left"
+    const isGreaterThanCurrentData = data > node.data
+    return side === 'left'
       ? !isGreaterThanCurrentData
-      : isGreaterThanCurrentData;
-  };
+      : isGreaterThanCurrentData
+  }
 
   tryInsertingNodeOnSide = (
     node: DataNode<Data>,
@@ -54,111 +54,111 @@ class BinarySearchTree<Data> {
       node,
       data,
       side
-    );
-    if (!shouldInsertOnSide) return;
+    )
+    if (!shouldInsertOnSide) return
     if (!node[side]) {
-      node[side] = new DataNode<Data>(data);
+      node[side] = new DataNode<Data>(data)
     }
-  };
+  }
 
   insert = (data: Data, startNode: DataNode<Data> | null = this.head): void => {
     if (!startNode && !this.head) {
-      this.head = new DataNode<Data>(data);
+      this.head = new DataNode<Data>(data)
     } else if (!startNode) {
-      throw new Error("Start node does not exist");
+      throw new Error('Start node does not exist')
     } else if (startNode.data === data) {
-      startNode.frequency++;
+      startNode.frequency++
     } else if (data < startNode.data && startNode.left) {
-      this.insert(data, startNode.left);
+      this.insert(data, startNode.left)
     } else if (data > startNode.data && startNode.right) {
-      this.insert(data, startNode.right);
+      this.insert(data, startNode.right)
     } else {
-      this.tryInsertingNodeOnSide(startNode, "left", data);
-      this.tryInsertingNodeOnSide(startNode, "right", data);
+      this.tryInsertingNodeOnSide(startNode, 'left', data)
+      this.tryInsertingNodeOnSide(startNode, 'right', data)
     }
-  };
+  }
 
   replace = (nodeToReplace: DataNode<Data>, data: Data): void => {
-    nodeToReplace.data = data;
-    nodeToReplace.left = null;
-    nodeToReplace.right = null;
-  };
+    nodeToReplace.data = data
+    nodeToReplace.left = null
+    nodeToReplace.right = null
+  }
 
   replaceWithNode = (
     nodeToReplace: DataNode<Data>,
     node: DataNode<Data>
   ): void => {
-    nodeToReplace.data = node.data;
-    nodeToReplace.left = node.left;
-    nodeToReplace.right = node.right;
-  };
+    nodeToReplace.data = node.data
+    nodeToReplace.left = node.left
+    nodeToReplace.right = node.right
+  }
 
   getSideTraverser =
     (side: Side) =>
     (node: DataNode<Data> | null = this.head): Data | null => {
       if (node === null) {
-        return null;
+        return null
       } else if (node[side]) {
-        return this.getSideTraverser(side)(node[side]!);
+        return this.getSideTraverser(side)(node[side]!)
       }
-      return node.data;
-    };
-
-  minimum = this.getSideTraverser("left");
-
-  maximum = this.getSideTraverser("right");
-
-  replaceNodeWithMinimum = (nodeToDelete: DataNode<Data>): void => {
-    const minimum = this.minimum();
-    if (minimum) {
-      this.replace(nodeToDelete, minimum);
+      return node.data
     }
-  };
+
+  minimum = this.getSideTraverser('left')
+
+  maximum = this.getSideTraverser('right')
+
+  replaceNodeWithMinimumOfRightTree = (nodeToDelete: DataNode<Data>): void => {
+    const minimum = this.minimum(nodeToDelete.right)
+    if (minimum) {
+      this.replace(nodeToDelete, minimum)
+    }
+  }
 
   replaceNodeWithChild = (nodeToDelete: DataNode<Data>): void => {
-    const child = nodeToDelete.left || nodeToDelete.right;
-    this.replaceWithNode(nodeToDelete, child!);
-  };
+    const child = nodeToDelete.left || nodeToDelete.right
+    this.replaceWithNode(nodeToDelete, child!)
+  }
 
   findParentNode = (
     data: Data,
     node: DataNode<Data> | null = this.head
   ): DataNode<Data> | null => {
     if (node === null) {
-      return null;
+      return null
     } else if (!node.left && !node.right) {
-      return null;
+      return null
     } else if (
       (node.left && data === node.left.data) ||
       (node.right && data === node.right.data)
     ) {
-      return node;
+      return node
     } else if (node.left && data < node.data) {
-      return this.findParentNode(data, node.left);
+      return this.findParentNode(data, node.left)
     } else if (node.right && data > node.data) {
-      return this.findParentNode(data, node.right);
+      return this.findParentNode(data, node.right)
     }
-    return null;
-  };
+    return null
+  }
 
   removeNodeFromParent = (nodeToDelete: DataNode<Data>): void => {
-    const parentNode = this.findParentNode(nodeToDelete.data);
+    const parentNode = this.findParentNode(nodeToDelete.data)
     if (parentNode) {
-      const side: Side = parentNode.left === nodeToDelete ? "left" : "right";
-      parentNode[side] = null;
+      const side: Side = parentNode.left === nodeToDelete ? 'left' : 'right'
+      parentNode[side] = null
     } else {
-      this.head = null;
+      this.head = null
     }
-  };
+  }
 
   deleteNode = (nodeToDelete: DataNode<Data>): void => {
     if (nodeToDelete.left && nodeToDelete.right) {
-      return this.replaceNodeWithMinimum(nodeToDelete);
+      return this.replaceNodeWithMinimumOfRightTree(nodeToDelete)
     } else if (nodeToDelete.left || nodeToDelete.right) {
-      return this.replaceNodeWithChild(nodeToDelete);
+      return this.replaceNodeWithChild(nodeToDelete)
     }
-    return this.removeNodeFromParent(nodeToDelete);
-  };
+    return this.removeNodeFromParent(nodeToDelete)
+  }
 }
 
-export default BinarySearchTree;
+export default BinarySearchTree

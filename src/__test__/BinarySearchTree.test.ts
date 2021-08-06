@@ -148,14 +148,20 @@ describe('Deletion', () => {
       testHeadReplacedWithSide('right')
     })
 
-    it('Should replace the node with the minimum value if it has multiple children', () => {
-      const head = tree!.head!
-      insertOnSide(head, 'right')
-      tree!.insert(100.5)
-      tree!.insert(102)
-      const headRightLeftCopy = head.right!.left!.getCopy()
-      tree!.deleteNode(head)
-      testNodeDataIsEqual(head, headRightLeftCopy)
+    describe('When the node has multiple children', () => {
+      it('Should replace the node with the minimum value if it has multiple children', () => {
+        const head = tree!.head!
+        insertOnSide(head, 'left')
+        insertOnSide(head, 'right')
+        tree!.insert(100.5)
+        tree!.insert(102)
+        console.log(tree!.head)
+        const headRightLeftCopy = head.right!.left!.getCopy()
+        tree!.deleteNode(head)
+        testNodeDataIsEqual(head, headRightLeftCopy)
+      })
+
+      it.todo("Should keep the replacement's children and data")
     })
   })
 })
