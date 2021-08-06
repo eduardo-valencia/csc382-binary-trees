@@ -302,3 +302,26 @@ A generator method to traverse the tree. Yields the data, then left, then right.
 const generator = tree.traverse()
 const { value } = generator.next()
 ```
+
+## Analysis
+
+### Insertion
+
+The time complexity for insertions is `O(n)` in the worst case. The `insert` method only uses recursion when inserting data on a side and the node already has children. Since it always calls itself with a nested node when using recursion, the maximum number of times it can call itself is `n`. Therefore, the time complexity is `n`. 
+
+The insertion operation has an average time complexity of `O(log n)`. When using recursion, the operation will compare the `data` to the current node's data. Then, it will choose to call itself with either the left or right side (but not both). If the tree is balanced, then the operation will disregard half of the nodes on each recursive iteration. Therefore, the time complexity is `O(log n)`.
+
+The best-case time complexity is constant because the operation will never call itself if the given node is `null`.
+
+### Deletion
+
+The deletion operation has a worst-case time complexity of `O(n)`. The `deleteNode` function must be called with a valid node. When it has two children, the function will replace the node with the minimum value on the right side. Therefore, it must find the minimum value by calling `minimum`, which calls itself to traverse towards the left until it reaches a leaf node. Since the tree is not guarantee to balanced, `minimum` has a time complexity of about `O(n)`. When `deleteNode` is called with a node that has either a left or right child (but not both), it will replace the node with one of its children, which takes constant time. Finally, when `deleteNode` is called with a node with no children, it will find the parent node by calling `findParentNode`. This method can call itself as long as it still has children, which means it has a time complexity of about `O(n)`. Therefore, the worst-case time complexity is `O(n)`.
+
+### Maximum
+
+The `getMaximumValue` method uses the same principles as the `minimum` function. Since the tree is not guaranteed to be balanced, it has a worst-case time complexity of `O(n)`.
+
+### Traverse
+
+The `traverse` generator is designed to traverse through each node in the tree. Since it calls itself with a nested node until it reaches a leaf, `traverse` has a time complexity of `O(n)`.
+
