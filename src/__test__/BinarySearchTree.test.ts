@@ -1,11 +1,14 @@
 import BinarySearchTree, { Side } from '../BinarySearchTree'
 import DataNode from '../Node'
 
+// Define an alias for the node type
 type NodeType = number
 
+// Define the type of data node
 type DataNodeType = DataNode<NodeType>
 
 describe('Traversal', () => {
+  // Make a tree with a head, which has a left and right node.
   const head = new DataNode<number>(100)
   const tree = new BinarySearchTree<number>(head)
   head.left = new DataNode<number>(99)
@@ -13,6 +16,7 @@ describe('Traversal', () => {
 
   const generator = tree.traverse()
 
+  // Define function for testing that the generator's yield is the same as the node's data
   const compareYieldWithNodeVaue = (node: DataNode<number>): void => {
     const { value } = generator.next()
     expect(value).toEqual(node.data)
@@ -31,6 +35,7 @@ describe('Traversal', () => {
   })
 })
 
+// Test that data was inserted on a node on the correct side.
 const testInsertionOnSide = (
   tree: BinarySearchTree<NodeType>,
   parentNode: DataNode<NodeType>,
@@ -44,6 +49,7 @@ const testInsertionOnSide = (
 }
 
 describe('tryInsertingNodeOnSide', () => {
+  // Make a tree with head with 2.
   const head = new DataNode<number>(2)
   const tree = new BinarySearchTree<number>(head)
 
@@ -90,6 +96,7 @@ describe('Insertion', () => {
 describe('Deletion', () => {
   let tree: BinarySearchTree<NodeType> | null
 
+  // Reset the tree on each test
   beforeEach(() => {
     tree = new BinarySearchTree<NodeType>()
   })
@@ -101,7 +108,9 @@ describe('Deletion', () => {
   })
 
   it("Should remove the parent's reference when the node to delete is a child.", () => {
+    // Head node
     tree!.insert(100)
+    // Creates head's left child
     tree!.insert(99)
     const leftChild = tree!.head!.left!
     tree!.deleteNode(leftChild)
@@ -109,16 +118,23 @@ describe('Deletion', () => {
   })
 
   describe('When the node has either a left or right child', () => {
+    // Creates a head node on the new tree for each test
     beforeEach(() => {
       tree!.insert(100)
     })
 
-    const insertOnSide = (node: DataNode<NodeType>, side: Side): void => {
+    // Tries to insert on a specific side using simple incrementation
+    // Will not work for nested nodes
+    const insertOnSideByIncrementing = (
+      node: DataNode<NodeType>,
+      side: Side
+    ): void => {
       const nodeData: NodeType = node.data
       const dataToInsert = side === 'left' ? nodeData - 1 : nodeData + 1
       tree!.insert(dataToInsert)
     }
 
+    // Compares the data, left, and right properties
     const testNodeDataIsEqual = (
       node1: DataNodeType,
       node2: DataNodeType
@@ -128,10 +144,14 @@ describe('Deletion', () => {
       expect(node1.right).toEqual(node2.right)
     }
 
+    // Tests that head (which is what is being deleted) is replaced with a specific side
     function testHeadReplacedWithSide(side: Side) {
-      insertOnSide(tree!.head!, side)
+      // Adds the head's child
+      insertOnSideByIncrementing(tree!.head!, side)
       const insertedNode = tree!.head![side]
-      insertOnSide(insertedNode!, 'left')
+      // Adds a left child to the head's child's
+      insertOnSideByIncrementing(insertedNode!, 'left')
+      // Makes copy so that we can test nodes are equal after we delete node
       const headChildCopy: DataNodeType = insertedNode!.getCopy()
 
       tree!.deleteNode(tree!.head!)
@@ -150,20 +170,26 @@ describe('Deletion', () => {
 
     describe('When the node has multiple children', () => {
       const insertMinimumValueChildren = (): void => {
+        // Adds a right child to the minimum node
         tree!.insert(100.75)
       }
 
       beforeEach(() => {
         const head = tree!.head!
-        insertOnSide(head, 'left')
-        insertOnSide(head, 'right')
+        // Adds head's left child
+        insertOnSideByIncrementing(head, 'left')
+        // Adds head's right child
+        insertOnSideByIncrementing(head, 'right')
+        // Adds a left child to the head.right. This is the minimum.
         tree!.insert(100.5)
+        // Adds a right child to the head.right
         tree!.insert(102)
         insertMinimumValueChildren()
       })
 
       it('Should replace the node with the minimum value if it has multiple children', () => {
         const head = tree!.head!
+        // So we can compare the minimum to head after we delete minimum node
         const headRightLeftCopy = head.right!.left!.getCopy()
         tree!.deleteNode(head)
         testNodeDataIsEqual(head, headRightLeftCopy)
@@ -175,10 +201,12 @@ describe('Deletion', () => {
 describe('Maximum', () => {
   let tree = new BinarySearchTree<NodeType>()
 
+  // reset tree for each test
   beforeEach(() => {
     tree = new BinarySearchTree<NodeType>()
   })
 
+  // Adds a series of nodes and returns the greatest value
   const addNodesAndGetGreatestValue = (): NodeType => {
     tree.insert(100)
     const maxValue = 900
@@ -189,7 +217,9 @@ describe('Maximum', () => {
   }
 
   it('Should return the greatest value in the tree', () => {
+    // Adds nodes and gets the expected max value
     const expectedMaxValue: NodeType = addNodesAndGetGreatestValue()
+    // Gets the actual max value
     const maxValue: NodeType | null = tree.getMaximumValue()
     expect(maxValue).toEqual(expectedMaxValue)
   })
