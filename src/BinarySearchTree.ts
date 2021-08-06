@@ -139,6 +139,15 @@ class BinarySearchTree<Data> {
     }
   }
 
+  /**
+   * Replaces a node
+   * @param {nodeToReplace}: The node to replace
+   * @param {node}: The node to replace with
+   * @example
+   * tree.insert(100)
+   * tree.insert(99)
+   * tree.replaceWithNode(tree.head, tree.head.left)
+   */
   replaceWithNode = (
     nodeToReplace: DataNode<Data>,
     node: DataNode<Data>
@@ -148,6 +157,13 @@ class BinarySearchTree<Data> {
     nodeToReplace.right = node.right
   }
 
+  /**
+   * Gets a function that traverses the tree in a given direction.
+   * @param {side}: Either "left" or "right"
+   * @returns {(node: DataNode<Data> | null = this.head): DataNode<Data> | null}: a traverser function
+   * @example
+   * tree.getSideTraverser('left')
+   */
   getSideTraverser =
     (side: Side) =>
     (node: DataNode<Data> | null = this.head): DataNode<Data> | null => {
@@ -159,10 +175,30 @@ class BinarySearchTree<Data> {
       return node
     }
 
+  /**
+   * Gets the minimum node of a tree.
+   * @param {node}: The node to start traversing from
+   * @returns {DataNode<Data> | null}: Returns the minimum node or null
+   * @example
+   * tree.minimum()
+   */
   minimum = this.getSideTraverser('left')
 
+  /**
+   * Gets the maximum node of a tree.
+   * @param {node}: The node to start traversing from
+   * @returns {DataNode<Data> | null}: Returns the maximum node or null
+   * @example
+   * tree.maximum()
+   */
   maximum = this.getSideTraverser('right')
 
+  /**
+   * Gets the maximum value of a tree.
+   * @returns {Data | null}: Returns the maximum value or null
+   * @example
+   * tree.getMaximumValue()
+   */
   getMaximumValue = (): Data | null => {
     const maximum = this.maximum()
     if (maximum) {
@@ -171,6 +207,12 @@ class BinarySearchTree<Data> {
     return null
   }
 
+  /**
+   * Replaces the node that will be deleted with the minimum of the right side.
+   * @param {nodeToDelete}: The node to delete
+   * @example
+   * tree.replaceNodeWithMinimumOfRightTree(tree.head)
+   */
   replaceNodeWithMinimumOfRightTree = (nodeToDelete: DataNode<Data>): void => {
     const minimum = this.minimum(nodeToDelete.right)
     if (minimum) {
@@ -178,11 +220,27 @@ class BinarySearchTree<Data> {
     }
   }
 
+  /**
+   * Replaces a node with either its left or right child, depending on which one exists.
+   * @param {nodeToDelete}: The node to delete
+   * @example
+   * tree.replaceNodeWithChild(tree.head)
+   */
   replaceNodeWithChild = (nodeToDelete: DataNode<Data>): void => {
     const child = nodeToDelete.left || nodeToDelete.right
     this.replaceWithNode(nodeToDelete, child!)
   }
 
+  /**
+   * Finds the parent node of a node with specific data
+   * @param {data}: The data to find
+   * @param {node}: The node to begin traversing from
+   * @example
+   * tree.insert(90)
+   * tree.insert(100)
+   * // Returns the head node (the one with 90)
+   * tree.findParentNode(100)
+   */
   findParentNode = (
     data: Data,
     node: DataNode<Data> | null = this.head
@@ -204,6 +262,14 @@ class BinarySearchTree<Data> {
     return null
   }
 
+  /**
+   * Finds the parent node and removes its reference to a specific child
+   * @param {nodeToDelete}: The node to delete
+   * @example
+   * tree.insert(100)
+   * tree.insert(90)
+   * tree.removeNodeFromParent(tree.head.left)
+   */
   removeNodeFromParent = (nodeToDelete: DataNode<Data>): void => {
     const parentNode = this.findParentNode(nodeToDelete.data)
     if (parentNode) {
@@ -214,6 +280,13 @@ class BinarySearchTree<Data> {
     }
   }
 
+  /**
+   * Deletes a node, replacing it if necessary.
+   * @param {nodeToDelete}: The node to delete
+   * @example
+   * tree.insert(100)
+   * tree.deleteNode(tree.head)
+   */
   deleteNode = (nodeToDelete: DataNode<Data>): void => {
     if (nodeToDelete.left && nodeToDelete.right) {
       return this.replaceNodeWithMinimumOfRightTree(nodeToDelete)
