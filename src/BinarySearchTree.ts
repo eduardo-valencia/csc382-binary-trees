@@ -160,7 +160,7 @@ class BinarySearchTree<Data> {
   /**
    * Gets a function that traverses the tree in a given direction.
    * @param {side}: Either "left" or "right"
-   * @returns {(node: DataNode<Data> | null = this.head): DataNode<Data> | null}: a traverser function
+   * @returns {function}: a traverser function
    * @example
    * tree.getSideTraverser('left')
    */
