@@ -1,3 +1,13 @@
+# Binary Search Trees
+
+## Introduction
+
+Binary search trees are data structures that store nested nodes. Each node stores data and can have up to two nested nodes: a left child node and a right child node. Additionally, binary search trees are sorted, meaning that the left child node is always less than the right child node. Binary search trees have the following operations: insert, delete, maximum, and traverse. First, the insertion operation creates a new node using specific data. Second, the deletion operation deletes a specific node, replacing it if necessary. Third, the maximum operation finds the maximum value in the tree. Finally, the traverse operation helps you traverse the tree's data in a specific order. I implemented a binary search tree with these operations.
+
+## Structure
+
+The `BinarySearchTree`'s structure consists of nested nodes. `BinarySearchTree` has methods for interacting with the nodes and contains the `head` node, which is the main node. The properties and methods are described below:
+
 ## BinarySearchTree
 
 The Binary Search Tree Class
