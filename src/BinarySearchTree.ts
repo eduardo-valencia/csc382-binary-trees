@@ -95,13 +95,13 @@ class BinarySearchTree<Data> {
 
   getSideTraverser =
     (side: Side) =>
-    (node: DataNode<Data> | null = this.head): Data | null => {
+    (node: DataNode<Data> | null = this.head): DataNode<Data> | null => {
       if (node === null) {
         return null
       } else if (node[side]) {
         return this.getSideTraverser(side)(node[side]!)
       }
-      return node.data
+      return node
     }
 
   minimum = this.getSideTraverser('left')
@@ -111,7 +111,7 @@ class BinarySearchTree<Data> {
   replaceNodeWithMinimumOfRightTree = (nodeToDelete: DataNode<Data>): void => {
     const minimum = this.minimum(nodeToDelete.right)
     if (minimum) {
-      this.replace(nodeToDelete, minimum)
+      this.replaceWithNode(nodeToDelete, minimum)
     }
   }
 
