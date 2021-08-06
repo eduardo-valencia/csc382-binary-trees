@@ -171,3 +171,31 @@ describe('Deletion', () => {
     })
   })
 })
+
+describe('Maximum', () => {
+  let tree = new BinarySearchTree<NodeType>()
+
+  beforeEach(() => {
+    tree = new BinarySearchTree<NodeType>()
+  })
+
+  const addNodesAndGetGreatestValue = (): NodeType => {
+    tree.insert(100)
+    const maxValue = 900
+    tree.insert(maxValue)
+    tree.insert(800)
+    tree.insert(850)
+    return maxValue
+  }
+
+  it('Should return the greatest value in the tree', () => {
+    const expectedMaxValue: NodeType = addNodesAndGetGreatestValue()
+    const maxValue: NodeType | null = tree.getMaximumValue()
+    expect(maxValue).toEqual(expectedMaxValue)
+  })
+
+  it('Should return null when the tree is empty', () => {
+    const maxValue: NodeType | null = tree.getMaximumValue()
+    expect(maxValue).toBeNull()
+  })
+})

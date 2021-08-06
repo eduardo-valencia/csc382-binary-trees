@@ -108,6 +108,14 @@ class BinarySearchTree<Data> {
 
   maximum = this.getSideTraverser('right')
 
+  getMaximumValue = (): Data | null => {
+    const maximum = this.maximum()
+    if (maximum) {
+      return maximum.data
+    }
+    return null
+  }
+
   replaceNodeWithMinimumOfRightTree = (nodeToDelete: DataNode<Data>): void => {
     const minimum = this.minimum(nodeToDelete.right)
     if (minimum) {
