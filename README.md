@@ -337,3 +337,17 @@ Since it is designed to iterate over each node, this operation has an average ti
 
 The best-case time complexity is constant because the operation will never call itself if the given node is `null`.
 
+## Commands
+
+Install packages
+
+```bash
+npm install
+```
+
+Run the tests
+
+```bash
+npm run test
+```
+
