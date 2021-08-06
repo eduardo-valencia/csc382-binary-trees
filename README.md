@@ -317,11 +317,23 @@ The best-case time complexity is constant because the operation will never call 
 
 The deletion operation has a worst-case time complexity of `O(n)`. The `deleteNode` function must be called with a valid node. When it has two children, the function will replace the node with the minimum value on the right side. Therefore, it must find the minimum value by calling `minimum`, which calls itself to traverse towards the left until it reaches a leaf node. Since the tree is not guarantee to balanced, `minimum` has a time complexity of about `O(n)`. When `deleteNode` is called with a node that has either a left or right child (but not both), it will replace the node with one of its children, which takes constant time. Finally, when `deleteNode` is called with a node with no children, it will find the parent node by calling `findParentNode`. This method can call itself as long as it still has children, which means it has a time complexity of about `O(n)`. Therefore, the worst-case time complexity is `O(n)`.
 
+This operation has an average time complexity of `O(log n)` because both `findParentNode` and `minimum` disregard half of the nodes on each recursive call, given a balanced tree.
+
+The best-case time complexity is constant because the operation will not call itself if the number of children is 0 or 1.
+
 ### Maximum
 
 The `getMaximumValue` method uses the same principles as the `minimum` function. Since the tree is not guaranteed to be balanced, it has a worst-case time complexity of `O(n)`.
 
+This operation has an average time complexity of `O(log n)` because it disregards half of the nodes (one side) for each recursive call, given a balanced tree.
+
+The best-case time complexity is constant because the operation will never call itself if the given node is `null`.
+
 ### Traverse
 
 The `traverse` generator is designed to traverse through each node in the tree. Since it calls itself with a nested node until it reaches a leaf, `traverse` has a time complexity of `O(n)`.
+
+Since it is designed to iterate over each node, this operation has an average time complexity of `O(n)`.
+
+The best-case time complexity is constant because the operation will never call itself if the given node is `null`.
 
