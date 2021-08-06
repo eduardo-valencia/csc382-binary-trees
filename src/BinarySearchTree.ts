@@ -139,12 +139,6 @@ class BinarySearchTree<Data> {
     }
   }
 
-  replace = (nodeToReplace: DataNode<Data>, data: Data): void => {
-    nodeToReplace.data = data
-    nodeToReplace.left = null
-    nodeToReplace.right = null
-  }
-
   replaceWithNode = (
     nodeToReplace: DataNode<Data>,
     node: DataNode<Data>
