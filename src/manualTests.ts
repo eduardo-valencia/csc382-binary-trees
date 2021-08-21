@@ -83,6 +83,10 @@ class DynamicTest {
   }
 
   // Find the maximum and print it
+  maximum = (): void => {
+    const maximum: DataNode<number> | null = this.tree.maximum()
+    return console.log(maximum)
+  }
 
   // Ask the user which operation they want
   promptOption = async (): Promise<number> => {
@@ -105,6 +109,9 @@ class DynamicTest {
           break
         case 2:
           await this.delete()
+          break
+        case 3:
+          this.maximum()
           break
         default:
           await this.traverse()
