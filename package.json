@@ -7,14 +7,17 @@
   "scripts": {
     "test": "jest --watch",
     "generateDocumentation": "npm run build && touch README.md && jsdoc2md out/BinarySearchTree.js > README.md",
-    "build": "tsc --build tsconfig.json"
+    "build": "tsc --build tsconfig.json",
+    "dynamicTests": "npm run build && node out/manualTests.js"
   },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node"
   },
   "dependencies": {
+    "@types/prompts": "^2.0.14",
     "jsdoc-to-markdown": "^7.0.1",
+    "prompts": "^2.4.1",
     "ts-jest": "^27.0.4"
   }
 }
