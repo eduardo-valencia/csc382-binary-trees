@@ -73,6 +73,14 @@ class DynamicTest {
   }
 
   // Traverse the tree and print values
+  traverse = async () => {
+    const generator = this.tree.traverse()
+    let value = generator.next().value
+    while (value) {
+      console.log(value)
+      value = generator.next().value
+    }
+  }
 
   // Find the maximum and print it
 
@@ -99,7 +107,7 @@ class DynamicTest {
           await this.delete()
           break
         default:
-          await this.insert()
+          await this.traverse()
           break
       }
       option = await this.promptOption()
